@@ -1,0 +1,55 @@
+version: "3"
+
+services:
+    port-db:
+      container_name: port-db
+      image: postgres
+      restart: always
+      environment:
+         POSTGRES_PASSWORD:  "${DB_PASSWORD}"
+      volumes:
+        - ./docker/db/:/var/lib/postgresql/data
+      ports:
+        - '5433:5432'
+      networks:
+        - portnet
+
+
+    adminer:
+      image: adminer
+      restart: always
+      ports:
+        - 5080:8080
+      networks:
+        - portnet
+
+
+    port-cli:
+      container_name: port-cli
+      restart: always
+      build:
+        context: ./
+        args:
+          USER_ID: ${USER_ID:-0}
+          GROUP_ID: ${GROUP_ID:-0}
+        dockerfile: php-cli.docker
+      volumes:
+          - ./:/var/www
+          - ./docker/composer:/var/composer
+      tty: true
+      environment:
+          - "DB_PORT=5432"
+          - "DB_HOST=port-db"
+          - "COMPOSER_MEMORY_LIMIT=-1"
+      depends_on:
+          - port-db
+      networks:
+          - portnet
+      ports:
+        - "8000:8000"    
+
+
+
+networks:
+    portnet:
+        driver: bridge
