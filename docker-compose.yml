@@ -23,6 +23,18 @@ services:
       networks:
         - portnet
 
+    node:
+      image: node:20
+      tty: true
+      networks:
+        - portnet
+      working_dir: /var/www
+      volumes:
+        - ./:/var/www
+      ports:
+        - "8000:8000"
+        - "5173:5173"
+
 
     port-cli:
       container_name: port-cli
@@ -46,7 +58,7 @@ services:
       networks:
           - portnet
       ports:
-        - "7000:8000"    
+        - "7000:8000"
 
 
 

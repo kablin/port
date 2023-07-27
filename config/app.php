@@ -16,6 +16,12 @@ return [
     |
     */
 
+    'products' => [
+        'role' =>  'admin',
+        'email' =>  'test@test.test',
+     ]  ,
+
+
     'name' => env('APP_NAME', 'Laravel'),
 
     /*
@@ -165,9 +171,11 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\ViewServiceProvider::class,
     ])->toArray(),
 
     /*

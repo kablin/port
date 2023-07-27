@@ -47,6 +47,8 @@ queue-restart:
 	docker compose  exec -u root -T php-fpm supervisorctl restart queue
 
 
+node:
+	docker compose exec node bash
 
 
 dev:
